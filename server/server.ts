@@ -1,6 +1,7 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, ErrHndl } from 'express';
 // import userRouter from './routes/userRouter';
 import path from 'path';
+import userRouter from './controllers/userController.js';
 
 const app = express();
 const PORT = 6666;
@@ -9,6 +10,10 @@ const PORT = 6666;
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, '../index')));
+
+//Endpoints
+app.use('/users', userRouter);
+// app.use('/jobs', jobsRouter)
 
 // Handle invalid endpoint
 app.use((req: express.Request, res: express.Response) => {
