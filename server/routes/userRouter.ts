@@ -7,9 +7,9 @@ router.get('/login', userController.login, (_: Request, res: Response) => {
   return res.status(200).json(res.locals.pokemon);
 });
 
-// router.post('/signup', userController.signup, (_: Request, res: Response) => {
-//   return res.status(201).json(res.locals.users);
-// });
+router.post('/signup', userController.signup, (_: Request, res: Response) => {
+  return res.status(201).json(res.locals.pokemon);
+});
 
 router.post(
   '/chooseStarter',

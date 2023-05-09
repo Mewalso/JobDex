@@ -3,6 +3,7 @@ import db from '../models/userModel';
 
 type UserController = {
   login: RequestHandler;
+  signup: RequestHandler;
   chooseStarter: RequestHandler;
   googleLogin: RequestHandler;
   signupGoogle: RequestHandler;
@@ -27,6 +28,33 @@ const userController: UserController = {
           //create cookie
           res.cookie('userIdCookie', data.rows[0].id);
           res.locals.pokemon = data.rows[0].pokemon;
+          return next();
+        }
+      });
+    } catch (err) {
+      next({
+        log: err,
+        status: 500,
+        messsage: 'Error in userController.login middleware',
+      });
+    }
+  },
+
+  signup: async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password, username } = req.body;
+    const credentials = [email.toString(), username, password];
+    try {
+      //signing up
+      const signupQuery = `INSERT INTO users (email, username, password)
+        VALUES ($1, $2, $3) RETURNING id`;
+      db.query(signupQuery, credentials).then((data: any) => {
+        if (!data) {
+          res.status(404).send('User was not created');
+          return next();
+        } else {
+          //create cookie and send back null pokemon
+          res.cookie('userIdCookie', data.rows[0].id);
+          res.locals.pokemon = null;
           return next();
         }
       });

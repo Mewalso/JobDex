@@ -21,6 +21,7 @@ CREATE TABLE users (
 CREATE TABLE job_table (
  id SERIAL PRIMARY KEY,  
  company VARCHAR(255) NOT NULL,
+ position VARCHAR(255) NOT NULL
  user_id INTEGER REFERENCES users(id); 
  link TEXT NOT NULL,
  app_contact VARCHAR(100),

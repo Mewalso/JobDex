@@ -16,11 +16,20 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../index')));
 
-//Endpoints
-app.use('/users', userRouter);
 app.get('/jobs', jobController.getJobs, (_: Request, res: Response) => {
   return res.status(200).json(res.locals.jobs)
 })
+app.post('/createJobs', jobController.createJobs, (_: Request, res: Response) => {
+  return res.status(201).json(res.locals.jobs)
+})
+app.patch('/updateJobs', jobController.updateJobs, (_: Request, res: Response) => {
+  return res.status(204).json(res.locals.jobs)
+})
+app.delete('/deleteJobs', jobController.deleteJobs, (_: Request, res: Response) => {
+  return res.status(202).json(res.locals.jobs)
+})
+//Endpoints
+app.use('/users', userRouter);
 
 app.get('/', (_: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../index.html'));

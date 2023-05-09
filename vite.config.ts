@@ -14,7 +14,7 @@ export default defineConfig({
     host: true,
     hmr: true,
     proxy: {
-      '/users': {
+      '/*': {
         target: 'http://localhost:6666',
         changeOrigin: true,
       },
