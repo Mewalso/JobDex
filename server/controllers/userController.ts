@@ -16,15 +16,17 @@ const userController: UserController = {
     try {
       //trying to login with user
       // const user  = `SELECT * FROM job_table INNER JOIN users ON users.jobs = job_table.id WHERE users.email = $1 AND users.password = $2;`;
-      const verify =
-        `SELECT id FROM users WHERE email = $1 AND password = $2;`;
-      db.query(verify, credentials ).then((data: any) => {
+      const verify = `SELECT id, pokemon FROM users WHERE email = $1 AND password = $2;`;
+      db.query(verify, credentials).then((data: any) => {
         if (!data) {
           res.status(404).send('User could found');
           return next();
         } else {
-          console.log('id from userController.login: ', data.rows[0].id)
-          res.locals.id = data.rows[0].id;
+          console.log('data: ', data);
+          //get the pokemon here
+          //create cookie
+          res.cookie('id', data.rows[0].id);
+          res.locals.pokemon = data.rows[0].pokemon;
           return next();
         }
       });
@@ -82,25 +84,25 @@ const userController: UserController = {
   //       });
   //     }
   //   },
-  getJobs: async (_: Request, res: Response, next: NextFunction) => {
+  getJobs: async (req: Request, res: Response, next: NextFunction) => {
     try {
       //query
       // console.log('res.locals.id: ', res.locals.id)
-      const id = [res.locals.id];
-      const jobsQuery = `SELECT * FROM job_table WHERE job_table.user_id = $1`
+      const { id } = req.cookies;
+      const credentials = [id];
+      const jobsQuery = `SELECT * FROM job_table WHERE job_table.user_id = $1`;
 
       //get jobs function
-      db.query(jobsQuery, id).then((data:any) => {
-        console.log('jobs from getJobs: ', data.rows); 
+      db.query(jobsQuery, credentials).then((data: any) => {
+        console.log('jobs from getJobs: ', data.rows);
         res.locals.jobs = data.rows;
         return next();
-      })
-
+      });
     } catch (err) {
       return next({
         log: err,
         status: 500,
-        message: 'Error in userController.getJobs middleware'
+        message: 'Error in userController.getJobs middleware',
       });
     }
   },

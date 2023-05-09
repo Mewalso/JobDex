@@ -3,12 +3,15 @@ import express, { Request, Response } from 'express';
 // import userRouter from './routes/userRouter';
 import path from 'path';
 import userRouter from './routes/userRouter';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 const PORT = 6666;
 
-// Add body parser
+// Add body parser and cookie parser
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../index')));
 
