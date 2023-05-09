@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 // import userRouter from './routes/userRouter';
 import path from 'path';
 import userRouter from './routes/userRouter';
+import jobController from './controllers/jobController'
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -17,7 +18,9 @@ app.use(express.static(path.join(__dirname, '../index')));
 
 //Endpoints
 app.use('/users', userRouter);
-// app.use('/jobs', jobsRouter)
+app.get('/jobs', jobController.getJobs, (_: Request, res: Response) => {
+  return res.status(200).json(res.locals.jobs)
+})
 
 app.get('/', (_: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../index.html'));
