@@ -3,7 +3,7 @@ import userController from '../controllers/userController';
 
 const router = Router();
 
-router.get('/login', userController.login, (_: Request, res: Response) => {
+router.get('/login', userController.login, userController.getJobs, (_: Request, res: Response) => {
   return res.status(200).json(res.locals.jobs);
 });
 

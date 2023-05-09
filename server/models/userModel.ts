@@ -11,17 +11,17 @@ Created the schemas on elephantSQL browser
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  --- username: VARCHAR(24) 
-  --- password: VARCHAR(30) 
-  jobs INTEGER REFERENCES job_table(id),
+  username: VARCHAR(24) 
+  password: VARCHAR(30) 
   pokemon VARCHAR(100),
   email VARCHAR(255) NOT NULL UNIQUE
 );
 
 
 CREATE TABLE job_table (
- id SERIAL PRIMARY KEY, 
+ id SERIAL PRIMARY KEY,  
  company VARCHAR(255) NOT NULL,
+ user_id INTEGER REFERENCES users(id); 
  link TEXT NOT NULL,
  app_contact VARCHAR(100),
  double_down INTEGER REFERENCES double_down_table(id),
