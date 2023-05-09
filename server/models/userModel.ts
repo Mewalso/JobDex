@@ -43,7 +43,7 @@ CREATE TABLE double_down_table (
 */
 
 export default {
-  query: (text: string, params?, callback?) => {
+  query: (text: string, params?:any, callback?:any):any => {
     console.log('executed query', text);
     return pool.query(text, params, callback);
   },

@@ -15,7 +15,7 @@ const userController: UserController = {
     try {
       //trying to login with user 
       const user  = `SELECT * FROM job_table INNER JOIN users ON users.jobs = job_table._id WHERE job_table.email = $1 AND job_table.password = $2`;
-      db.query(user, credentials).then((jobs) => {
+      db.query(user, credentials).then((jobs:any) => {
         if (!jobs) {
           res.status(404).send('User could found');
           return next();
@@ -41,7 +41,7 @@ const userController: UserController = {
       const userInfo = `INSERT INTO users (username, password, email)
         VALUES ($1, $2, #3)`;
       db.query(userInfo, credentials)
-      .then(users => {
+      .then((users:any) => {
         if (!users) {
           res.status(404).send('Email already in use');
           return next();
