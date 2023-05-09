@@ -1,7 +1,7 @@
-import express, { Request, Response, ErrHndl } from 'express';
+import express, { Request, Response } from 'express';
 // import userRouter from './routes/userRouter';
 import path from 'path';
-import userRouter from './controllers/userController.js';
+import userRouter from './routes/userRouter.js';
 
 const app = express();
 const PORT = 6666;
@@ -14,6 +14,10 @@ app.use(express.static(path.join(__dirname, '../index')));
 //Endpoints
 app.use('/users', userRouter);
 // app.use('/jobs', jobsRouter)
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../index.html'));
+});
 
 // Handle invalid endpoint
 app.use((req: express.Request, res: express.Response) => {

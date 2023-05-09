@@ -11,7 +11,7 @@ Created the schemas on elephantSQL browser
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  --- username: VARCHAR(24) NOT NULL UNIQUE
+  --- username: VARCHAR(24) 
   --- password: VARCHAR(30) 
   jobs INTEGER REFERENCES job_table(id),
   pokemon VARCHAR(100),

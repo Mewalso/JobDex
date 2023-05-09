@@ -8,7 +8,7 @@ router.get('/login', userController.login, (req: Request, res: Response) => {
 });
 
 router.post('/signup', userController.signup, (req: Request, res: Response) => {
-  return res.status(201);
+  return res.status(201).json(res.locals.users);
 });
 
 export default router;

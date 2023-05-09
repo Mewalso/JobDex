@@ -37,10 +37,18 @@ const userController: UserController = {
     const { username, password, email } = req.body;
     const credentials = [username, password, email];
     try {
+      console.log('in userController.signup')
       const userInfo = `INSERT INTO users (username, password, email)
         VALUES ($1, $2, #3)`;
-      db.query(userInfo, credentials);
-      return next();
+      db.query(userInfo, credentials)
+      .then(users => {
+        if (!users) {
+          res.status(404).send('Email already in use');
+          return next();
+        }
+        res.locals.users=users
+        return next();
+      });
     } catch (err) {
       next({
         log: err,
