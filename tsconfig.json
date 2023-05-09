@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "module": "ESNext",
+    "module": "commonjs",
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -19,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src/**/*", "server/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
