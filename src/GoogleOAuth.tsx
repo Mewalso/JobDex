@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { gapi } from 'gapi-script';
+import { useNavigate } from 'react-router-dom';
 
 const clientID =
   '49821622516-9so8okrtmcvfen5ip0pbtcn1q3avob9j.apps.googleusercontent.com';
 
 function GoogleOAuth() {
+  const navigate = useNavigate();
+
   useEffect(() => {
     function start() {
       gapi.client.init({
@@ -23,12 +26,24 @@ function GoogleOAuth() {
 
   const onSuccess = (response: any) => {
     console.log('LOGIN SUCCESSFUL', response.profileObj);
-    // fetch request to DB
-    //  recieve jobs and job data (whic is returned with regular login)
-    //  Does user have email & starter
-    // set session to true
-    // redirect to home
+
+    fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        //verify if correct
+        username: response.profileObj.email,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) navigate('/Home');
+        else navigate('/ChooseStarter');
+      });
   };
+
   const onFailure = (response: any) => {
     console.log('LOGIN FAILED', response);
   };

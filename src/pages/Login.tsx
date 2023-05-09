@@ -1,27 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { redirect, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import GoogleOAuth from '../GoogleOAuth';
 
-const LoginPage = () => {
+const Login: React.FC = () => {
   // track inputs in state
   const [usernameInput, setUsernameInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
-  const [session, setSession] = useState(false);
-  const [jobs, setJobs] = useState([]);
-  const [userData, setUserData] = useState({});
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (session && userData.starter) {
-      navigate('/home');
-    } else if (session && !userData.starter) {
-      navigate('/chooseStarter');
-    }
-  }, [navigate, session, userData.starter]);
-
   // when submit is clicked, send fetch request with current state of those inputs to backend
-  function handleSubmit(e: any) {
+  function handleLogin(e: any) {
     e.preventDefault();
     fetch('/login', {
       method: 'POST',
@@ -33,15 +22,30 @@ const LoginPage = () => {
         password: passwordInput,
       }),
     })
-      // when all the data is returned, save jobs and job details to state
-      // redirect to homepage by setting session on state to true
       .then((res) => res.json())
       .then((data) => {
-        //server will return an array of application objects,
-        // then set session and trigger appropruiate redirect
-        setJobs(data.jobs);
-        setSession(true);
-        setUserData(data.user);
+        if (data) navigate('/Home');
+        alert('Incorrect Login Credentials');
+      });
+  }
+
+  function handleSignUp(e: any) {
+    e.preventDefault();
+    fetch('/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: usernameInput,
+        password: passwordInput,
+      }),
+    })
+      //send back true or false
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) navigate('/ChooseStarter');
+        else navigate('/Login');
       });
   }
 
@@ -89,7 +93,11 @@ const LoginPage = () => {
         </div>
         <hr></hr>
       </div>
-      <button onClick={(e) => handleSubmit(e)}>Submit</button>
+      <GoogleOAuth />
+      <button onClick={(e) => handleLogin(e)}>Login</button>
+      <button onClick={(e) => handleSignUp(e)}>Sign Up</button>
     </div>
   );
 };
+
+export default Login;
