@@ -12,13 +12,13 @@ const userController: UserController = {
   //regular login with email and password
   login: async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-    // const credentials = [email, password];
+    const credentials = [email.toString(), password];
     try {
       //trying to login with user
       // const user  = `SELECT * FROM job_table INNER JOIN users ON users.jobs = job_table.id WHERE users.email = $1 AND users.password = $2;`;
       const verify =
-        `SELECT id FROM users WHERE email = '${email}' AND password = ${password};`;
-      db.query(verify).then((data: any) => {
+        `SELECT id FROM users WHERE email = $1 AND password = $2;`;
+      db.query(verify, credentials ).then((data: any) => {
         if (!data) {
           res.status(404).send('User could found');
           return next();
