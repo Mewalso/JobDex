@@ -37,25 +37,22 @@ const Home: React.FC = () => {
   useEffect(() => {
     //check if cookie and nagivate appropiatly
     const userId = Cookies.get('userIdCookie');
-    console.log('userId is: ', userId);
 
     if (userId) {
       fetch('/jobs', {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          username: userId,
-        }),
       })
         .then((res) => res.json())
         .then((data) => {
-          setJobs(data.jobs);
+          console.log('data: ', data)
+          setJobs(data);
         });
     } else {
       console.log(' you are about to navigate back to login');
-      // navigate('/Login');
+      // navigate('/login');
     }
   }, []);
 

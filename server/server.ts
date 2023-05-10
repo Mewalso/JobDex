@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, '../index')));
 app.get('/jobs', jobController.getJobs, (_: Request, res: Response) => {
   return res.status(200).json(res.locals.jobs);
 });
-app.post(
+app.get(
   '/createJobs',
   jobController.createJobs,
   (_: Request, res: Response) => {
