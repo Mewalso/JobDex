@@ -11,37 +11,6 @@ const JobDataView = () => {
   // on submit, setDisplayedJob will be invoked with all the input peices of state
   // send updated displayedJob state obj to DB to be saved
 
-  useEffect(() => {
-    null;
-  }, [displayedJob]);
-
-  const saveChangesHandleClick = () => {
-    setDisplayedJob((prevState) => ({
-      ...prevState,
-      company: companyName,
-      link: link,
-      app_contact: appContact,
-      cover_letter: coverLetter,
-      date_submitted: dateSubmitted,
-      dd: doubleDown,
-      dd_name: contactName,
-      dd_contact_info: contactInfo,
-      dd_message: doubleDownMessage,
-      dd_follow_up: doubleDownFollow,
-    }));
-
-    // Db patch req
-    fetch('/updateJob', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...setDisplayedJob,
-      }),
-    }).then(alert('Changes Saved!'));
-  };
-
   // INITIAL INFO
   const [position, setPosition] = useState(displayedJob.position || '');
   const [companyName, setCompanyName] = useState(displayedJob.company || '');
@@ -70,8 +39,51 @@ const JobDataView = () => {
     displayedJob.dd_follow_up || false
   );
 
+  useEffect(() => {
+    console.log('diplsayedJob was changed');
+    setPosition(displayedJob.position || '');
+    setCompanyName(displayedJob.company || '');
+    setCoverLetter(displayedJob.cover_letter || '');
+    setAppContact(displayedJob.app_contact || '');
+    setDateSubmitted(displayedJob.link || '');
+    setLink(displayedJob.link || '');
+    setDoubleDown(displayedJob.dd || false);
+    setContactName(displayedJob.dd_name || '');
+    setContactInfo(displayedJob.dd_contact_info || '');
+    setDoubleDownMessage(displayedJob.dd_message || '');
+    setDoubleDownFollowDate(displayedJob.dd_follow_up_date || '');
+    setDoubleDownFollow(displayedJob.dd_follow_up || false);
+  }, [displayedJob]);
+
+  const saveChangesHandleClick = () => {
+    // Db patch req
+    fetch('http://localhost:4000/updateJobs', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...displayedJob,
+        position: position,
+        company: companyName,
+        cover_letter: coverLetter,
+        app_contact: appContact,
+        date_submitted: dateSubmitted,
+        link: link,
+        dd: doubleDown,
+        dd_name: contactName,
+        dd_contact_info: contactInfo,
+        dd_message: doubleDownMessage,
+        dd_follow_up: doubleDownFollow,
+      }),
+    }).then(() => {
+      alert('Changes Saved!');
+      window.location.reload();
+    });
+  };
+
   return (
-    <div className='data-view'>
+    <div>
       <h3>
         {position} at {companyName}
       </h3>
@@ -84,7 +96,9 @@ const JobDataView = () => {
                 type='text'
                 placeholder='Job Position'
                 value={position}
-                onChange={(e) => setPosition(e.target.value)}
+                onChange={(e) => {
+                  setPosition(e.target.value);
+                }}
               />
             </div>
             <div className='company-container'>
@@ -195,6 +209,8 @@ const JobDataView = () => {
             />
           </div>
         </div>
+      </div>
+      <footer>
         <button
           onClick={() => {
             saveChangesHandleClick();
@@ -202,7 +218,7 @@ const JobDataView = () => {
         >
           Save Changes
         </button>
-      </div>
+      </footer>
     </div>
   );
 };

@@ -12,7 +12,7 @@ const jobController: jobController = {
   getJobs: async (req: Request, res: Response, next: NextFunction) => {
     try {
       //query
-      const { userIdCookie } = req.cookies;
+      const { userIdCookie } = req.body
       console.log('userIdCookie: ', userIdCookie);
       const credentials = [userIdCookie];
       const jobsQuery = `SELECT * FROM job_table WHERE job_table.user_id = $1`;
@@ -34,9 +34,10 @@ const jobController: jobController = {
     try {
       //query
       // console.log('res.locals.id: ', res.locals.id)
-      const { userIdCookie } = req.cookies;
+      const { userIdCookie } = req.body;
       // const { link, app_contact, cover_letter, status, dd, dd_name, dd_message, dd_contact_info, dd_follow_up} = req.body ;
-      const jobsQuery = `INSERT INTO job_table (company, position, user_id, link, app_contact, dd, dd_name, dd_message, dd_contact_info, dd_follow_up) VALUES ("New Company", "New Job", $1, "", "", "","",false,"","","",false)`;
+      // const jobsQuery = `INSERT INTO job_table (company, position, user_id, link, app_contact, dd, dd_name, dd_message, dd_contact_info, dd_follow_up) VALUES ("New Company", "New Job", $1, "exampleJob.com", "New Contact", false, "Double-down Name", "Write your message sent here", "Contact Info of double-down", false)`;
+      const jobsQuery = `INSERT INTO job_table (user_id) VALUES ($1);` 
       const fields = [userIdCookie];
 
       //get jobs function
@@ -72,6 +73,7 @@ const jobController: jobController = {
         dd_follow_up,
         id,
       } = req.body;
+      console.log('req.body: ', req.body)
       /*
             UPDATE table_name
             SET column1 = value1, column2 = value2, ...
