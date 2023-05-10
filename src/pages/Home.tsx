@@ -24,9 +24,9 @@ const Home: React.FC = () => {
     dd_contact_info: null,
     dd_follow_up: null,
     dd_follow_up_date: null,
-    dd_message: null
+    dd_message: null,
   });
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log('data: ', data)
+          console.log('data: ', data);
           setJobs(data);
         });
     } else {
@@ -53,10 +53,10 @@ const Home: React.FC = () => {
 
   return (
     <SharedContext.Provider value={{ jobs, displayedJob, setDisplayedJob }}>
-      <div>
+      <div className='home'>
         <JobList />
         <JobDataView />
-        <RejectionBar />
+        {/* <RejectionBar /> */}
       </div>
     </SharedContext.Provider>
   );

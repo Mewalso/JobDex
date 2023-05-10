@@ -4,19 +4,16 @@ import { useContext } from 'react';
 import { SharedContext } from '../pages/Home';
 
 const JobList = () => {
-  const { jobs } = useContext(SharedContext)
+  const { jobs } = useContext(SharedContext);
   // to do
   // fetch component to grab our job
 
   const jobsArray = [];
 
-
-  
-
-  function newJob (){
-  //  get req to DB for empty job data (id should be the only non-null)
-  //    we could also send the null obj if necessary
-  fetch('http://localhost:4000/createJobs', {
+  function newJob() {
+    //  get req to DB for empty job data (id should be the only non-null)
+    //    we could also send the null obj if necessary
+    fetch('http://localhost:4000/createJobs', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -37,18 +34,18 @@ const JobList = () => {
       //       dd_follow_up_date: null
       // }),
     })
-    .then((res) => res.json())
-    .then(window.location.reload());     
+      .then((res) => res.json())
+      .then(window.location.reload());
   }
-  
+
   // iterate through job state and put a Job <job/> component into an array for each applciation in state
 
-  for(let i = 0; i < jobs.length; i++) {
+  for (let i = 0; i < jobs.length; i++) {
     jobsArray.push(<Job data={jobs[i]} />);
   }
 
   return (
-    <div>
+    <div className='job-list'>
       <div className='topbar'>
         <h1>Job List</h1>
         <button onClick={() => newJob()}>Create New Job</button>
