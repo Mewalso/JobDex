@@ -1,4 +1,136 @@
-:root {
+:root,
+body {
   margin: 0;
   padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: rgb(178, 213, 178);
+}
+
+/* STARTER PAGE */
+
+.starter-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: auto;
+  text-align: center;
+}
+
+.pokemon-container {
+  margin: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.pokemonIcon {
+  height: 100px;
+  width: 100px;
+  padding: 20px;
+  cursor: pointer;
+}
+
+/* LOGIN PAGE */
+
+.loginCard {
+  margin: auto;
+  margin-top: 200px;
+  width: 300px;
+  background-color: white;
+  padding: 60px;
+  border-radius: 8%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginCard,
+h2,
+.button-container {
+  margin: center;
+}
+
+.button-container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  background: rgb(178, 213, 178);
+}
+
+.username-container,
+.password-container {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.username-input,
+.password-input {
+  border: none;
+  padding: 10px;
+  background: rgb(241, 243, 244);
+  border-radius: 5px;
+}
+
+/* HOME PAGE */
+
+.home {
+  margin-top: 3%;
+  /* background-color: rgb(241, 243, 244); */
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.job-list {
+  background: rgb(241, 243, 244);
+  border-radius: 10px;
+  width: 30%;
+  height: 80vh;
+  /* margin-left: 5%; */
+  display: flex;
+  justify-content: center;
+  overflow-y: scroll;
+}
+
+.data-view {
+  margin-left: 20vh;
+  height: 90vh;
+  width: 40%;
+  overflow-y: scroll;
+  background: rgb(241, 243, 244);
+  display: flex;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.data-view button {
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+
+input {
+  border: none;
+  padding: 10px;
+  background: rgb(252, 254, 255);
+  border-radius: 5px;
+}
+
+.data-view input {
+  width: 300px;
 }

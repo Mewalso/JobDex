@@ -64,7 +64,7 @@ function GoogleOAuth() {
         onFailure={onFailure}
       />
       <div style={{ height: '10px' }} />
-      <GoogleLogout clientId={clientID} onLogoutSuccess={onLogoutSuccess} />
+      {/* <GoogleLogout clientId={clientID} onLogoutSuccess={onLogoutSuccess} /> */}
     </div>
   );
 }

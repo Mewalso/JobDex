@@ -63,19 +63,19 @@ const JobDataView = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-          ...displayedJob,
-          position: position,
-          company: companyName,
-          cover_letter: coverLetter,
-          app_contact: appContact,
-          date_submitted: dateSubmitted,
-          link: link,
-          dd: doubleDown,
-          dd_name: contactName,
-          dd_contact_info: contactInfo,
-          dd_message: doubleDownMessage,
-          dd_follow_up: doubleDownFollow,
-        }),
+        ...displayedJob,
+        position: position,
+        company: companyName,
+        cover_letter: coverLetter,
+        app_contact: appContact,
+        date_submitted: dateSubmitted,
+        link: link,
+        dd: doubleDown,
+        dd_name: contactName,
+        dd_contact_info: contactInfo,
+        dd_message: doubleDownMessage,
+        dd_follow_up: doubleDownFollow,
+      }),
     }).then(() => {
       alert('Changes Saved!');
       window.location.reload();
@@ -97,7 +97,7 @@ const JobDataView = () => {
                 placeholder='Job Position'
                 value={position}
                 onChange={(e) => {
-                    setPosition(e.target.value);
+                  setPosition(e.target.value);
                 }}
               />
             </div>

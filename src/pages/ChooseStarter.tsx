@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 // three pokemon choices
-// each button send post request to database to update stored "starter" field of user table
+// each button send post request to database to update stored "pokemon" field of user table
 
 const ChooseStarter: React.FC = () => {
   const navigate = useNavigate();
@@ -22,28 +22,43 @@ const ChooseStarter: React.FC = () => {
       }),
     })
       //send back true or false
-    .then(() => navigate('/Home'));
+      .then(() => navigate('/Home', { state: pokemon }));
   }
 
   return (
-    <div className='pokemon-container'>
-      <div className='charmander'>
-        <img src='charmander.png'></img>
-        <button id='charmanderButton' onClick={() => sendPokemon('charmander')}>
-          Charmander
-        </button>
-      </div>
-      <div className='bulbasaur'>
-        <img src='bulbasaur.png'></img>
-        <button id='bulbasaurButton' onClick={() => sendPokemon('bulbasaur')}>
-          Bulbasaur
-        </button>
-      </div>
-      <div className='squirtle'>
-        <img src='squirtle.png'></img>
-        <button id='squirtleButton' onClick={() => sendPokemon('squirtle')}>
-          Squirtle
-        </button>
+    <div className='starter-container'>
+      <h1>Choose Your Pokemon</h1>
+      <p>
+        <i>
+          This cutie will evolve as you accumulate rejections. Practice makes
+          you stronger!
+        </i>
+      </p>
+      <div className='pokemon-container'>
+        <div className='charmander'>
+          <img
+            src='src/assets/charmander.gif'
+            className='pokemonIcon'
+            alt='charmander'
+            onClick={() => sendPokemon('charmander')}
+          ></img>
+        </div>
+        <div className='bulbasaur'>
+          <img
+            src='src/assets/bulbasaur.gif'
+            className='pokemonIcon'
+            alt='bulbasaur'
+            onClick={() => sendPokemon('bulbasaur')}
+          ></img>
+        </div>
+        <div className='squirtle'>
+          <img
+            src='src/assets/squirtle.gif'
+            className='pokemonIcon'
+            alt='squirtle'
+            onClick={() => sendPokemon('squirtle')}
+          ></img>
+        </div>
       </div>
     </div>
   );

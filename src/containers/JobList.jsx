@@ -22,7 +22,7 @@ const JobList = () => {
       },
       body: JSON.stringify({
         userIdCookie: userId,
-       }),
+      }),
     })
       .then((res) => res.json())
       .then(window.location.reload());
@@ -36,7 +36,7 @@ const JobList = () => {
   }
 
   return (
-    <div>
+    <div className='job-list'>
       <div className='topbar'>
         <h1>Job List</h1>
         <button onClick={() => newJob()}>Create New Job</button>
