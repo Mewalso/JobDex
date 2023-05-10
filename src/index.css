@@ -97,13 +97,15 @@ button {
 }
 
 .job-list {
+  flex-direction: column;
   background: rgb(241, 243, 244);
   border-radius: 10px;
   width: 30%;
   height: 80vh;
   /* margin-left: 5%; */
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: start;
   overflow-y: scroll;
 }
 

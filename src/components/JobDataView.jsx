@@ -83,7 +83,7 @@ const JobDataView = () => {
   };
 
   return (
-    <div>
+    <div className='data-view'>
       <h3>
         {position} at {companyName}
       </h3>
