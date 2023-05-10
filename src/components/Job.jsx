@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { SharedContext } from '../pages/Home';
 
-const Job = (data) => {
+const Job = ({data}) => {
+  console.log('data from job component:', data)
 
   const { setDisplayedJob } = useContext(SharedContext);
 
