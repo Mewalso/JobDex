@@ -34,15 +34,17 @@ const Home: React.FC = () => {
     const userId = Cookies.get('userIdCookie');
 
     if (userId) {
-      fetch('/jobs', {
-        method: 'GET',
+      fetch('http://localhost:4000/jobs', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+         userIdCookie: userId,
+        }),
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log('data: ', data)
           setJobs(data);
         });
     } else {
