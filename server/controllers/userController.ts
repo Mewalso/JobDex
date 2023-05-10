@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import db from '../models/userModel';
+// import cookieParser = require('cookie-parser');
 
 type UserController = {
   login: RequestHandler;
@@ -26,7 +27,7 @@ const userController: UserController = {
           console.log('data: ', data);
           //get the pokemon here
           //create cookie
-          res.cookie('userIdCookie', data.rows[0].id);
+          res.locals.cookieToSet = data.rows[0].id
           res.locals.pokemon = data.rows[0].pokemon;
           return next();
         }
@@ -53,8 +54,11 @@ const userController: UserController = {
           return next();
         } else {
           //create cookie and send back null pokemon
-          res.cookie('userIdCookie', data.rows[0].id);
+          console.log('data at row 0 is: ', data.rows[0].id);
+          // res.cookie('userIdCookie', data.rows[0].id);
+          res.locals.cookieToSet = data.rows[0].id
           res.locals.pokemon = null;
+          console.log('res locals is: ', res.locals);
           return next();
         }
       });
@@ -96,6 +100,8 @@ const userController: UserController = {
     }
   },
   googleLogin: async (req: Request, res: Response, next: NextFunction) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    console.log('entering googleLogin')
     const { email } = req.body;
     const credentials = [email.toString()];
     try {
@@ -124,7 +130,7 @@ const userController: UserController = {
         } else {
           //get the pokemon here
           //create cookie
-          res.cookie('userIdCookie', data.rows[0].id);
+          res.locals.cookieToSet = data.rows[0].id
           res.locals.pokemon = data.rows[0].pokemon;
           return next();
         }
@@ -154,7 +160,7 @@ const userController: UserController = {
           return next();
         }
         //set cookie and return pokemon (will be null)
-        res.cookie('userIdCookie', data.rows[0].id);
+        res.locals.cookieToSet = data.rows[0].id
         res.locals.pokemon = data.rows[0].pokemon;
         return next();
       });

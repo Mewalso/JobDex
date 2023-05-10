@@ -12,7 +12,7 @@ const JobDataView = () => {
     // send updated displayedJob state obj to DB to be saved
     
     useEffect(() => {
-        console.log('JobDataView Rerender');
+        null;
     }, [displayedJob]);
 
     const saveChangesHandleClick = () => {
@@ -28,7 +28,6 @@ const JobDataView = () => {
             dd_contact_info: contactInfo,
             dd_message: doubleDownMessage,
             dd_follow_up: doubleDownFollow,
-            dd_follow_up_date: doubleDownFollowDate,
         }))
 
         // Db patch req
@@ -40,7 +39,7 @@ const JobDataView = () => {
             body: JSON.stringify({
               ...setDisplayedJob,
             }),
-          }).then(window.location.reload());
+          }).then(alert('Changes Saved!'));
     };
 
     // INITIAL INFO

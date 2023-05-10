@@ -34,25 +34,27 @@ const Home: React.FC = () => {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   // check if cookie and nagivate appropiatly
-  //   const userId = Cookies.get('userIdCookie');
+  useEffect(() => {
+    //check if cookie and nagivate appropiatly
+    const userId = Cookies.get('userIdCookie');
 
-  //   if (userId) {
-  //     fetch('/jobs', {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       }
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         setJobs(data.jobs);
-  //       });
-  //   } else {
-  //     navigate('/login');
-  //   }
-  // }, []);
+    if (userId) {
+      fetch('/jobs', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log('data: ', data)
+          setJobs(data);
+        });
+    } else {
+      console.log(' you are about to navigate back to login');
+      // navigate('/login');
+    }
+  }, []);
 
   return (
     <SharedContext.Provider value={{ jobs, displayedJob, setDisplayedJob }}>

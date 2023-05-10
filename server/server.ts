@@ -10,7 +10,10 @@ import cors from 'cors';
 const app = express();
 app.use(
   cors({
-    origin: ['http://localhost:4000', 'http://localhost:4444'],
+    origin: ['http://localhost:4444', 'http://localhost:4000'],
+    allowedHeaders: 'Content-type',
+    methods: 'GET,POST,PUT,DELETE,OPTIONS',
+    credentials: true,
   })
 );
 const PORT = 4000;
@@ -25,7 +28,7 @@ app.use(express.static(path.join(__dirname, '../index')));
 app.get('/jobs', jobController.getJobs, (_: Request, res: Response) => {
   return res.status(200).json(res.locals.jobs);
 });
-app.post(
+app.get(
   '/createJobs',
   jobController.createJobs,
   (_: Request, res: Response) => {

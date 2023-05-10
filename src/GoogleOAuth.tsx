@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 const clientID =
   '49821622516-9so8okrtmcvfen5ip0pbtcn1q3avob9j.apps.googleusercontent.com';
@@ -31,7 +32,7 @@ function GoogleOAuth() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'mode': 'no-cors',
+        mode: 'cors',
       },
       body: JSON.stringify({
         //verify if correct
@@ -40,8 +41,11 @@ function GoogleOAuth() {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data) navigate('/Home');
-        else navigate('/ChooseStarter');
+        if (data) {
+          const cookies = new Cookies();
+          cookies.set('userIdCookie', data.cookieToSet, { path: '/' });
+          navigate('/home');
+        } else navigate('/starter');
       });
   };
 
