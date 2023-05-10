@@ -41,12 +41,12 @@ const userController: UserController = {
   },
 
   signup: async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password, username } = req.body;
-    const credentials = [email.toString(), username, password];
+    const { email, password } = req.body;
+    const credentials = [email.toString(), password];
     try {
       //signing up
-      const signupQuery = `INSERT INTO users (email, username, password)
-        VALUES ($1, $2, $3) RETURNING id`;
+      const signupQuery = `INSERT INTO users (email, password)
+        VALUES ($1, $2) RETURNING id`;
       db.query(signupQuery, credentials).then((data: any) => {
         if (!data) {
           res.status(404).send('User was not created');

@@ -3,7 +3,7 @@ import userController from '../controllers/userController';
 
 const router = Router();
 
-router.get('/login', userController.login, (_: Request, res: Response) => {
+router.post('/login', userController.login, (_: Request, res: Response) => {
   return res.status(200).json(res.locals.pokemon);
 });
 
@@ -19,8 +19,12 @@ router.post(
   }
 );
 
-router.post('/googleLogin', userController.googleLogin, (_: Request, res: Response) => {
-  return res.status(201).json(res.locals.pokemon);
-})
+router.post(
+  '/googleLogin',
+  userController.googleLogin,
+  (_: Request, res: Response) => {
+    return res.status(201).json(res.locals.pokemon);
+  }
+);
 
 export default router;
