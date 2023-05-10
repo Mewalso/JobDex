@@ -8,9 +8,14 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
 const app = express();
-app.use(cors({
-    origin: ["http://localhost:4000", "http://localhost:4444"]
-}));
+app.use(
+  cors({
+    origin: ['http://localhost:4444', 'http://localhost:4000'],
+    allowedHeaders: 'Content-type',
+    methods: 'GET,POST,PUT,DELETE,OPTIONS',
+    credentials: true,
+  })
+);
 const PORT = 4000;
 
 // Add body parser and cookie parser

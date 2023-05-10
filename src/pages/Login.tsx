@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GoogleOAuth from '../GoogleOAuth';
+import Cookies from 'universal-cookie';
 
 const Login: React.FC = () => {
   // track inputs in state
@@ -10,29 +11,73 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   // when submit is clicked, send fetch request with current state of those inputs to backend
-  function handleLogin(e: any) {
-    e.preventDefault();
-    fetch('http://localhost:4000/users/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: usernameInput,
-        password: passwordInput,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) navigate('/home');
-        else {
-          alert('Incorrect Login Credentials');
-        }
-      });
+  function handleLogin(event: MouseEvent): any {
+    // event.preventDefault();
+    // fetch('http://localhost:4000/users/login', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     mode: 'no-cors',
+    //   },
+    //   body: JSON.stringify({
+    //     email: usernameInput,
+    //     password: passwordInput,
+    //   }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (data) {
+    //       console.log('query submitted, checking if data exists');
+    //       navigate(`/home`, { replace: true });
+    //     } else {
+    //       alert('Incorrect Login Credentials');
+    //     }
+    //   });
+    console.log("BEFORE prevent default")
+    event.preventDefault();
+    console.log("AFTER prevent default")
+    async function checkLogin(email: any, password: any) {
+      try {
+        const response = await fetch('http://localhost:4000/users/login', {
+          method: 'POST',
+          credentials: "include",
+          mode: "cors",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: usernameInput,
+            password: passwordInput,
+          }),
+        });
+        // If there are no errors, convert response from JSON and return
+        const parsedResponse = await response.json();
+        console.log('parsedresponse is: ', parsedResponse)
+        return parsedResponse;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    const callCheckLogin = async () => {
+      const response = await checkLogin(usernameInput, passwordInput);
+      console.log('response is: ', response)
+      if (!response.err) {
+        // setLoggedIn(true);
+        const cookies = new Cookies();
+        cookies.set('userIdCookie', response.cookieToSet, { path: '/' });
+        navigate('/home');
+        console.log("after navigate")
+      } else {
+        // If the request was unsuccessful, send an alert to the user
+        alert('Wrong email or password');
+      }
+    };
+    callCheckLogin();
   }
 
   function handleSignUp(e: any) {
+    console.log("BEFORE signup prevent default")
     e.preventDefault();
+    console.log("AFTER signup prevent default")
     fetch('http://localhost:4000/users/signup', {
       method: 'POST',
       headers: {
@@ -46,8 +91,10 @@ const Login: React.FC = () => {
       //send back true or false
       .then((res) => res.json())
       .then((data) => {
-        if (data) navigate('/chooseStarter');
-        else navigate('/login');
+        const cookies = new Cookies();
+        cookies.set('userIdCookie', data.cookieToSet, { path: '/' });
+        //we should always be navigating to chooseStarter always on signup
+        navigate('/starter');
       });
   }
 
@@ -94,10 +141,10 @@ const Login: React.FC = () => {
           />
         </div>
         <hr></hr>
+        <button onClick={handleLogin}>Login</button>
+        <button onClick={(e) => handleSignUp(e)}>Sign Up</button>
       </div>
       <GoogleOAuth />
-      <button onClick={(e) => handleLogin(e)}>Login</button>
-      <button onClick={(e) => handleSignUp(e)}>Sign Up</button>
     </div>
   );
 };
