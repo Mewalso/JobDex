@@ -27,14 +27,15 @@ function GoogleOAuth() {
   const onSuccess = (response: any) => {
     console.log('LOGIN SUCCESSFUL', response.profileObj);
 
-    fetch('/login', {
+    fetch('http://localhost:4000/users/googleLogin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'mode': 'no-cors',
       },
       body: JSON.stringify({
         //verify if correct
-        username: response.profileObj.email,
+        email: response.profileObj.email,
       }),
     })
       .then((res) => res.json())

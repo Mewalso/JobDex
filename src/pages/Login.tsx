@@ -12,40 +12,42 @@ const Login: React.FC = () => {
   // when submit is clicked, send fetch request with current state of those inputs to backend
   function handleLogin(e: any) {
     e.preventDefault();
-    fetch('/login', {
+    fetch('http://localhost:4000/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: usernameInput,
+        email: usernameInput,
         password: passwordInput,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data) navigate('/Home');
-        alert('Incorrect Login Credentials');
+        if (data) navigate('/home');
+        else {
+          alert('Incorrect Login Credentials');
+        }
       });
   }
 
   function handleSignUp(e: any) {
     e.preventDefault();
-    fetch('/signup', {
+    fetch('http://localhost:4000/users/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: usernameInput,
+        email: usernameInput,
         password: passwordInput,
       }),
     })
       //send back true or false
       .then((res) => res.json())
       .then((data) => {
-        if (data) navigate('/ChooseStarter');
-        else navigate('/Login');
+        if (data) navigate('/chooseStarter');
+        else navigate('/login');
       });
   }
 
@@ -68,7 +70,7 @@ const Login: React.FC = () => {
           <input
             type='text'
             className='username-input'
-            placeholder='username'
+            placeholder='email'
             onChange={(e) => setUsernameInput(e.target.value)}
           />
         </div>
