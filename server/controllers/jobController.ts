@@ -34,9 +34,9 @@ const jobController: jobController = {
           //query
           // console.log('res.locals.id: ', res.locals.id)
           const { userIdCookie } = req.cookies;
-          const { company, position, link, app_contact, double_down, cover_letter, status} = req.body ;
+          const { company, position, link, app_contact, cover_letter, status, dd, dd_name, dd_message, dd_contact_info, dd_follow_up, dd_follow_up_date } = req.body ;
           const jobsQuery = `INSERT INTO job_table (company, position, user_id, link, app_contact, double_down, cover_letter, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`;
-          const fields = [company, position, userIdCookie, link, app_contact, double_down, cover_letter, status]
+          const fields = [company, position, link, app_contact, cover_letter, status, dd, dd_name, dd_message, dd_contact_info, dd_follow_up, dd_follow_up_date]
     
           //get jobs function
           db.query(jobsQuery, fields).then((data: any) => {
@@ -58,7 +58,7 @@ const jobController: jobController = {
           //query
           // console.log('res.locals.id: ', res.locals.id)
           const { userIdCookie } = req.cookies;
-          const { id, company, position, link, app_contact, double_down, cover_letter, status } = req.body ;
+          const { company, position, link, app_contact, cover_letter, status, dd, dd_name, dd_message, dd_contact_info, dd_follow_up, dd_follow_up_date} = req.body ;
           /*
             UPDATE table_name
             SET column1 = value1, column2 = value2, ...

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Job from "./Job";
 import { SharedContext } from "../pages/Home";
 
@@ -11,84 +11,85 @@ const JobDataView = () => {
     // on submit, setDisplayedJob will be invoked with all the input peices of state 
     // send updated displayedJob state obj to DB to be saved
     
-     // const [textField, setTextField] = useState()
-    // const [state, setState] = useState({
-    //     field1: "",
-    //     field2: "",
-    //     nestedField: {
-    //       nestedField1: "",
-    //       nestedField2: ""
-    //     }
-    //   });
-      
-    //   setState(prevState => ({
-    //     ...prevState,
-    //     nestedField: {
-    //       ...prevState.nestedField,
-    //       nestedField1: "new value"
-    //     }
-    //   }));
+    useEffect(() => {
+        console.log('JobDataView Rerender');
+    }, [displayedJob]);
 
-
-    // TODO:
-    //  submit handleClick
-    //      send to DB
-    //  status feature
-
-    const saveHandleClick = () => {
+    const saveChangesHandleClick = () => {
         setDisplayedJob(prevState => ({
             ...prevState,
-
+            company: companyName,
+            link: link,
+            app_contact: appContact,
+            cover_letter: coverLetter,
+            date_submitted: dateSubmitted,
+            dd: doubleDown,
+            dd_name: contactName,
+            dd_contact_info: contactInfo,
+            dd_message: doubleDownMessage,
+            dd_follow_up: doubleDownFollow,
+            dd_follow_up_date: doubleDownFollowDate,
         }))
-    }
+
+        // Db patch req
+        fetch('/updateJob', {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              ...setDisplayedJob,
+            }),
+          }).then(window.location.reload());
+    };
 
     // INITIAL INFO
-    const [position, setPosition] = useState('');
-    const [companyName, setCompanyName] = useState('');
-    const [coverLetter, setCoverLetter] = useState('');
-    const [appContact, setAppContact] = useState('');
-    const [submittedDate, setSubmittedDate] = useState('');
-    const [link, setLink] = useState('');
+    const [position, setPosition] = useState(displayedJob.position || '');
+    const [companyName, setCompanyName] = useState(displayedJob.company || '');
+    const [coverLetter, setCoverLetter] = useState(displayedJob.cover_letter ||'');
+    const [appContact, setAppContact] = useState(displayedJob.app_contact || '');
+    const [dateSubmitted, setDateSubmitted] = useState(displayedJob.date_submitted || '');
+    const [link, setLink] = useState(displayedJob.link || '');
     
     // DOUBLE DOWN
-    const [doubleDown, setDoubleDown] = useState(false);
-    const [contactName, setContactName] = useState('');
-    const [contactInfo, setContactInfo] = useState('');
-    const [doubleDownMessage, setDoubleDownMessage] = useState('');
-    const [doubleDownFollow, setDoubleDownFollow] = useState(false);
+    const [doubleDown, setDoubleDown] = useState(displayedJob.dd || false);
+    const [contactName, setContactName] = useState(displayedJob.dd_name || '');
+    const [contactInfo, setContactInfo] = useState(displayedJob.dd_contact_info || '');
+    const [doubleDownMessage, setDoubleDownMessage] = useState(displayedJob.dd_message || '');
+    const [doubleDownFollowDate, setDoubleDownFollowDate] = useState(displayedJob.dd_follow_up_date || '');
+    const [doubleDownFollow, setDoubleDownFollow] = useState(displayedJob.dd_follow_up || false);
 
     return (
-        displayedJob.position === undefined ? <div>Hello World</div> : 
         <div>
-        <h3> data.position at data.company</h3>
+        <h3>{position} at {companyName}</h3>
         <div className="data-container">
             <div className="job-interface">
                 <div className="position-company-container">
                     <div className="position-container">
                         <h4>Position</h4>
-                        <input type="text" placeholder="Job Position" value={displayedJob.position} onChange={(e) => setPosition(e.target.value)}/>
+                        <input type="text" placeholder="Job Position" value={position} onChange={(e) => setPosition(e.target.value)}/>
                     </div>
                     <div className="company-container">
                         <h4>Company</h4>
-                        <input type="text" placeholder="Company" value={displayedJob.company} onChange={(e) => setCompanyName(e.target.value)}/>
+                        <input type="text" placeholder="Company" value={companyName} onChange={(e) => setCompanyName(e.target.value)}/>
                     </div>
                 </div>
                     <div className="company-container">
                         <h4>Cover Letter</h4>
-                        <input type="text" placeholder="Cover Letter" value={displayedJob.coverLetter} onChange={(e) => setCoverLetter(e.target.value)}/>
+                        <input type="text" placeholder="Cover Letter" value={coverLetter} onChange={(e) => setCoverLetter(e.target.value)}/>
                     </div>
                 <div className="date-contact-link-container">
                     <div className="date-container">
                         <h4>Date Submitted</h4>
-                        <input type="text" placeholder="Date Submitted" value={displayedJob.date_submitted} onChange={(e) => setSubmittedDate(e.target.value)}/>
+                        <input type="text" placeholder="Date Submitted" value={dateSubmitted} onChange={(e) => setDateSubmitted(e.target.value)}/>
                     </div>
                     <div className="poc-container">
                         <h4>Application Point of Contact or Referrals</h4>
-                        <input type="text" placeholder="Application Point of Contact or Referrals" value={displayedJob.app_contact} onChange={(e) => setAppContact(e.target.value)}/>
+                        <input type="text" placeholder="Application Point of Contact or Referrals" value={appContact} onChange={(e) => setAppContact(e.target.value)}/>
                     </div>
                     <div className="link-container">
                         <h4>Application Link</h4>
-                        <input type="text" placeholder="Application Link" value={displayedJob.link} onChange={(e) => setLink(e.target.value)}/>
+                        <input type="text" placeholder="Application Link" value={link} onChange={(e) => setLink(e.target.value)}/>
                     </div>
                 </div>
             </div>
@@ -96,29 +97,29 @@ const JobDataView = () => {
             <div className="double-down">
                 <div className='have-you-dd'>       
                     <p>Have you doubled down?</p>
-                    <input type='checkbox' checked={doubleDown} onChange={() => {setDoubleDown(!doubleDown)}}></input>
+                    <input type='checkbox' checked={doubleDown} onChange={() => {setDoubleDown(!doubleDown)}}/>
                 </div>
                 <div className="dd-contact">
                     <p>Double Down Contact</p>
-                    <input type='text' placeholder="Double Down Contact" value={displayedJob.name} onChange={(e) => setContactName(e.target.value)}></input>
+                    <input type='text' placeholder="Double Down Contact" value={contactName} onChange={(e) => setContactName(e.target.value)}/>
                 </div>
                 <div className="dd-info">
                     <p>Contact Info</p>
-                    <input type='text' placeholder="Double Down Contact info" value={displayedJob.contact_info} onChange={(e) => setContactInfo(e.target.value)}></input>
+                    <input type='text' placeholder="Double Down Contact info" value={contactInfo} onChange={(e) => setContactInfo(e.target.value)}/>
                 </div>
                 <div className="dd-message">
                     <p>Double Down Message</p>
-                    <input type='text' placeholder="Double Down Message" value={displayedJob.message} onChange={(e) => setDoubleDownMessage(e.target.value)}></input>
+                    <input type='text' placeholder="Double Down Message" value={doubleDownMessage} onChange={(e) => setDoubleDownMessage(e.target.value)}/>
                 </div>
-                <div className="dd-follow-up">
-                    <p>Follow up by {displayedJob.follow_up_by}</p>
-                    <input type='checkbox' value={displayedJob.follow_up} checked={doubleDownFollow} onChange={() => {setDoubleDownFollow(!doubleDownFollow)}}></input>
+                <div className="dd-follow-up-by">
+                    <p>Follow up by {doubleDownFollowDate}</p>
+                    <input type='text' placeholder='Follow up by' value={doubleDownFollowDate} onChange={(e) => {setDoubleDownFollowDate(e.target.value)}}/>
+                    <input type='checkbox' value={doubleDownFollow} checked={doubleDownFollow} onChange={() => {setDoubleDownFollow(!doubleDownFollow)}}/>
                 </div>
             </div>
         </div>
         <footer>
-            <input>Status : {displayedJob.status}</input>
-            <button onClick={() => {saveHandleClick()}}>Save Changes</button>
+            <button onClick={() => {saveChangesHandleClick()}}>Save Changes</button>
         </footer>
     </div>
     )
