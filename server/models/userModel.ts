@@ -37,6 +37,7 @@ CREATE TABLE double_down_table (
  message TEXT NOT NULL,
  date DATE DEFAULT CURRENT_DATE, 
  contact_info VARCHAR(500) NOT NULL,
+ doubled_down BOOLEAN DEFAULT FALSE,
  follow_up BOOLEAN DEFAULT FALSE ,
  follow_up_date DATE DEFAULT CURRENT_DATE + 4 NOT NULL
 )
