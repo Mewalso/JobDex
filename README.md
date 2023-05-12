@@ -1,4 +1,20 @@
-vite configuration for backend
+# JobDex
+JobDex is an open-source job application tracker built on Typescript, React, and Node.js that allows you track your codesmith-style job applications. Keep track of your: 
+- company
+- position
+- link (url)
+- contact 
+- cover letter
+- status
+- app submitted date
+- double-down ?
+- double-down name
+- double-down message
+- double-down contact info
+- double-down follow-up messsage
+- double-down follow up date 
+
+# Vite configuration for backend
 1. delete type: modules from vite.config.ts
 2. add following code to vite.config.ts  
 ```
